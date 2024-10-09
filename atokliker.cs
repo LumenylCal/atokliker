@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Threading;
 
 class AutoShitter
 {
+    // if youre here to read the code im so sorry... its actual brainrot... ANYWAYS HAVE FUNNN BAIIII
+
+    #region dumb shit
+
     [DllImport("user32.dll", SetLastError = true)]
     private static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, int dwExtraInfo);
 
@@ -28,23 +33,28 @@ class AutoShitter
 
     private static bool isgamertoggled = false;
 
+    #endregion
+
+    #region dumb shit PART 2 (EVIL) (DARK) (TWISTED)
     private static void helpformeandnoobs()
     {
+        Console.WriteLine(" ");
         Console.WriteLine("Available Commands:");
-        Console.WriteLine("L_Toggle(button)    - Set the button for toggling auto-clicking.");
-        Console.WriteLine("L_Hold(button)      - Set the button for holding down to click.");
-        Console.WriteLine("L_PrimaryClick      - Set the click type to primary (Left Mouse Button).");
-        Console.WriteLine("L_SecondaryClick    - Set the click type to secondary (Right Mouse Button).");
-        Console.WriteLine("L_Reset             - Reset all settings to defaults.");
-        Console.WriteLine("L_Code(character)   - Output the hex code for the specified character.");
-        Console.WriteLine("help                - Display this help information.");
-        Console.WriteLine("helpbind            - Display the keybind help information.");
+        Console.WriteLine("L_Toggle(Button Code)    - Set the button for toggling auto-clicking.");
+        Console.WriteLine("L_Hold(Button Code)      - Set the button for holding down to click.");
+        Console.WriteLine("L_PrimaryClick           - Set the click type to primary (Left Mouse Button).");
+        Console.WriteLine("L_SecondaryClick         - Set the click type to secondary (Right Mouse Button).");
+        Console.WriteLine("L_Reset                  - Reset all settings to defaults.");
+        Console.WriteLine("L_Code(Button Input)     - Output the hex code for the specified Button.");
+        Console.WriteLine("help                     - Display this help information.");
+        Console.WriteLine("helpbind                 - Display the keybind help information.");
         Console.WriteLine(" ");
         Console.WriteLine("discord.gg/FwmGf6vBu2");
     }
 
     private static void keybindhelpersingerest()
     {
+        Console.WriteLine(" ");
         Console.WriteLine("hi chat!!!1");
         Console.WriteLine("if youre like me then you have no clue how to use this!!!");
         Console.WriteLine("either because you have dementia like me OR because youre new here");
@@ -63,24 +73,24 @@ class AutoShitter
         Console.WriteLine("HAVE FUNN!!111!!1111!");
     }
 
-    private static void nowclickwiththeleftbutton()
+    private static void nowclickwiththeleftbutton() // press prinmy
     {
         mouse_event(prumridown, 0, 0, 0, 0);
         mouse_event(primryup, 0, 0, 0, 0);
     }
 
-    private static void klikwiththerightbutton()
+    private static void klikwiththerightbutton() // press secondaty
     {
         mouse_event(secondraydown, 0, 0, 0, 0);
         mouse_event(secondrymusknappupp, 0, 0, 0, 0);
     }
 
-    private static bool istehthingpressedyslashn(int key)
+    private static bool istehthingpressedyslashn(int key) // check if you pressing or holding or whaterev the thing FOR FREE
     {
         return (GetAsyncKeyState(key) & 0x8000) != 0;
     }
 
-    private static int GetButtonCode(string button)
+    private static int GetButtonCode(string button) //used for the settitng for the thing
     {
         if (button.StartsWith("0x"))
         {
@@ -96,39 +106,43 @@ class AutoShitter
 
         switch (button)
         {
-            case "Mouse1": return primarkiliker;
-            case "Mouse2": return seconfklik;
-            case "Mouse4": return defuldgold;
-            case "Mouse5": return defalttogle;
+            case "Mouse1": 
+                return primarkiliker;
+            case "Mouse2": 
+                return seconfklik;
+            case "Mouse4": 
+                return defuldgold;
+            case "Mouse5": 
+                return defalttogle;
             default: return -1;
         }
     }
 
-    private static void L_Toggle(int button)
+    private static void L_Toggle(int button) // yes this button set for toggle yes yes
     {
         andthetogglebuttonisthisthingy = button;
-        Console.WriteLine("Toggle button set to: " + button);
+        Console.WriteLine($"Toggle button set to: {button}");
     }
 
-    private static void L_Hold(int button)
+    private static void L_Hold(int button) // now the setting for the uhhhhhh hold button yesssss thank you so much thats just what i need cz i need to BUZZ
     {
         holdingbuttonisthisthingy = button;
-        Console.WriteLine("Hold button set to: " + button);
+        Console.WriteLine($"Hold button set to: {button}");
     }
 
-    private static void L_PrimaryClick()
+    private static void L_PrimaryClick() // u wanna primary or secondary click_? this is primary
     {
         klikkatyper = primarkiliker;
         Console.WriteLine("Click type set to: Primary (Mouse1)");
     }
 
-    private static void L_SecondaryClick()
+    private static void L_SecondaryClick() // and this is secondaryty
     {
         klikkatyper = seconfklik;
         Console.WriteLine("Click type set to: Secondary (Mouse2)");
     }
 
-    private static void L_Reset()
+    private static void L_Reset() // reset to my defaultsts
     {
         holdingbuttonisthisthingy = defuldgold;
         andthetogglebuttonisthisthingy = defalttogle;
@@ -138,7 +152,7 @@ class AutoShitter
         Console.WriteLine("Settings reset to defaults: Hold on Mouse4, Toggle on Mouse5, klikkatyper to Primary (Mouse1).");
     }
 
-    private static void ProcessCommand(string input)
+    private static void ProcessCommand(string input) // read your stupid shit
     {
         string[] parts = input.Split('(');
 
@@ -171,13 +185,13 @@ class AutoShitter
                         L_Hold(buttonCode);
                         break;
                     default:
-                        Console.WriteLine("Invalid command.");
+                        Console.WriteLine("Wharrrr????");
                         break;
                 }
             }
             else
             {
-                Console.WriteLine("Invalid button: " + buttonStr);
+                Console.WriteLine($"yeahhhh... no.. `helpbind` to learn how bind... it should look like L_Hold(0x4C)");
             }
         }
         else if (input == "L_PrimaryClick")
@@ -194,26 +208,55 @@ class AutoShitter
         }
         else
         {
-            Console.WriteLine("Invalid command format.");
+            int ARGH = new Random().Next(1, 4);
+            switch (ARGH)
+            {
+                case 1:
+                    Console.WriteLine($"`{input}` isnt something i understand.... whar mean?? type `help` or `helpbind` ok??? then you the thing");
+                    break;
+                case 2:
+                    Console.WriteLine($"Buh??? Whar you mean `{input}`!?1 you dont understand???+ type `help` or `helpbind` before doing whatever you do ok?");
+                    break;
+                case 3:
+                    Console.WriteLine($"Wharrrrr????? Huhhhhhh??????? wha is `{input}`??? me not get... type `help` or `helpbind` for to know what do ok?");
+                    break;
+            }
         }
     }
 
-    private static void L_Code(string keyInput)
+    private static void L_Code(string keyInput) // here uyou get the code for the thing you want to binding
     {
         if (keyInput.Length == 1)
         {
-            char keyChar = keyInput[0];
+            char keyChar = char.ToUpper(keyInput[0]);
             int virtualKeyCode = (int)keyChar;
-            Console.WriteLine($"Code for {keyInput} = 0x{virtualKeyCode:X2}");
+            Console.WriteLine($"Code for {keyInput} = 0x{virtualKeyCode:X2}. hope that helps!111!!!!11");
         }
         else
         {
-            Console.WriteLine($"Invalid input: {keyInput}. Please provide a valid single character.");
+            Console.WriteLine($"whar is {keyInput}... can you just input like one character or something not as weird??? thanks!111!!!!1");
         }
     }
 
+    #endregion
+
+    #region mian? mnai? niam or however you spell it
     static void Main()
     {
+        int ARGH = new Random().Next(1, 4);
+        switch (ARGH)
+        {
+            case 1:
+                Console.Title = "ato kliker!!!1";
+                break;
+            case 2:
+                Console.Title = "gayming free from all punjabi viruses!!! (WORKING 2023) (NO SCAM) (NO VIRUS) (FREE RUBOX)";
+                break;
+            case 3:
+                Console.Title = "made because logitech GHub was too slow for me :3";
+                break;
+        }
+
         Console.WriteLine("type `help` for a list of the uhhh commands yea...\nTYPE `helpbind` TO LEARN HOW TO REBIND");
         while (true)
         {
@@ -250,7 +293,7 @@ class AutoShitter
                 {
                     isgamertoggled = true;
                     yestoggle = !yestoggle;
-                    Thread.Sleep(200);
+                    Thread.Sleep(200); //just so you dont spam toggle ok??++?
                 }
             }
             else
@@ -272,7 +315,8 @@ class AutoShitter
                     klikwiththerightbutton();
                 }
             }
-            Thread.Sleep(1);
+            Thread.Sleep(1); // you COULD delete this but i dont know mane... ur pc might explode (false) its just here for safety
         }
+        #endregion
     }
 }
