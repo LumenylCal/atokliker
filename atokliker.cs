@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Threading;
+using System.Threading.Tasks;
 
 class AutoShitter
 {
@@ -30,6 +31,7 @@ class AutoShitter
     private static int holdingbuttonisthisthingy = defuldgold;
     private static int andthetogglebuttonisthisthingy = defalttogle;
     private static int klikkatyper = primarkiliker;
+    private static int delay = 1;
 
     private static bool isgamertoggled = false;
 
@@ -40,16 +42,17 @@ class AutoShitter
     {
         Console.WriteLine(" ");
         Console.WriteLine("Available Commands:");
-        Console.WriteLine("L_Toggle(Button Code)    - Set the button for toggling auto-clicking.");
-        Console.WriteLine("L_Hold(Button Code)      - Set the button for holding down to click.");
-        Console.WriteLine("L_PrimaryClick           - Set the click type to primary (Left Mouse Button).");
-        Console.WriteLine("L_SecondaryClick         - Set the click type to secondary (Right Mouse Button).");
+        Console.WriteLine("L_Toggle(Button Code)    - Sets the button for toggling auto-clicking.");
+        Console.WriteLine("L_Hold(Button Code)      - Sets the button for holding down to click.");
+        Console.WriteLine("L_PrimaryClick           - Sets the click type to primary (Left Mouse Button).");
+        Console.WriteLine("L_SecondaryClick         - Sets the click type to secondary (Right Mouse Button).");
+        Console.WriteLine("L_Delay(Miliseconds)     - Sets the time between each click.");
         Console.WriteLine("L_Reset                  - Reset all settings to defaults.");
         Console.WriteLine("L_Code(Button Input)     - Output the hex code for the specified Button.");
         Console.WriteLine("help                     - Display this help information.");
         Console.WriteLine("helpbind                 - Display the keybind help information.");
         Console.WriteLine(" ");
-        Console.WriteLine("discord.gg/FwmGf6vBu2");
+        Console.WriteLine("For any other help or bug reporting go to discord.gg/FwmGf6vBu2");
     }
 
     private static void keybindhelpersingerest()
@@ -128,6 +131,12 @@ class AutoShitter
     {
         holdingbuttonisthisthingy = button;
         Console.WriteLine($"Hold button set to: {button}");
+    } 
+    
+    private static void L_Delay(int delayer) // for the delay commndeand
+    {
+        delay = delayer;
+        Console.WriteLine($"Delay between kliks set to: {delayer}");
     }
 
     private static void L_PrimaryClick() // u wanna primary or secondary click_? this is primary
@@ -172,6 +181,22 @@ class AutoShitter
         {
             string command = parts[0].Trim();
             string buttonStr = parts[1].Trim(')');
+
+            if (command.Equals("L_Delay", StringComparison.OrdinalIgnoreCase))
+            {
+                if (int.TryParse(buttonStr, out int delayer))
+                {
+                    L_Delay(delayer);
+                    if (delayer < 50)
+                    Console.WriteLine("just saying this rn.. low delay values COULD make ur pc run it so fast it doesnt register the kliks properly (1 has worked for me)");
+                }
+                else
+                {
+                    Console.WriteLine("sorry mane but i dont know what the sigma that i supposed to mean.. thats not a number i recognise");
+                }
+                return;
+            }
+
             int buttonCode = GetButtonCode(buttonStr);
 
             if (buttonCode != -1)
@@ -184,6 +209,9 @@ class AutoShitter
                     case "L_Hold":
                         L_Hold(buttonCode);
                         break;
+                    case "L_Delay":
+                        L_Hold(buttonCode);
+                        break;
                     default:
                         Console.WriteLine("Wharrrr????");
                         break;
@@ -191,7 +219,19 @@ class AutoShitter
             }
             else
             {
-                Console.WriteLine($"yeahhhh... no.. `helpbind` to learn how bind... it should look like L_Hold(0x4C)");
+                int ARGH = new Random().Next(1, 4);
+                switch (ARGH)
+                {
+                    case 1:
+                        Console.WriteLine($"`{input}` isnt something i understand.... whar mean?? type `help` or `helpbind` ok??? then you the thing");
+                        break;
+                    case 2:
+                        Console.WriteLine($"Buh??? Whar you mean `{input}`!?1 you dont understand???+ type `help` or `helpbind` before doing whatever you do ok?");
+                        break;
+                    case 3:
+                        Console.WriteLine($"Wharrrrr????? Huhhhhhh??????? wha is `{input}`??? me not get... type `help` or `helpbind` for to know what do ok?");
+                        break;
+                }
             }
         }
         else if (input == "L_PrimaryClick")
@@ -235,6 +275,15 @@ class AutoShitter
         else
         {
             Console.WriteLine($"whar is {keyInput}... can you just input like one character or something not as weird??? thanks!111!!!!1");
+        }
+    }
+
+    public static void thingyasyncnc() // i should delete this but im too lazy
+    {
+        if (!isgamertoggled)
+        {
+            isgamertoggled = true;
+            yestoggle = !yestoggle;
         }
     }
 
@@ -285,16 +334,12 @@ class AutoShitter
                 {
                     klikwiththerightbutton();
                 }
+                Thread.Sleep(delay);
             }
 
             if (istehthingpressedyslashn(andthetogglebuttonisthisthingy))
             {
-                if (!isgamertoggled)
-                {
-                    isgamertoggled = true;
-                    yestoggle = !yestoggle;
-                    Thread.Sleep(200); //just so you dont spam toggle ok??++?
-                }
+                thingyasyncnc();
             }
             else
             {
@@ -314,8 +359,8 @@ class AutoShitter
                 {
                     klikwiththerightbutton();
                 }
+                Thread.Sleep(delay);
             }
-            Thread.Sleep(1); // you COULD delete this but i dont know mane... ur pc might explode (false) its just here for safety
         }
         #endregion
     }
