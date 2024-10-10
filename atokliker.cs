@@ -96,6 +96,7 @@ namespace AtoKliker
                               "to use there you just type L_Hold or L_Toggle then in the () type the button from the list for example L_Hold(Mouse1) this will bind it to primary mouse!!! (left click)\n" +
                               " \nList:\n" +
                               "Mouse list: Mouse1, Mouse2, Mouse3, Mouse4, Mouse5\n" +
+                              "Function list: F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, F13, F14, F15, F16, F 17, F18, F19, F20, F21, F22, F23, F24\n" +
                               "HAVE FUNN!!111!!1111!\n");
         }
 
