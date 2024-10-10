@@ -267,7 +267,7 @@ namespace AtoKliker
                                 break;
 
                             default:
-                                Console.WriteLine("Wharrrr????");
+                                Console.WriteLine("Wharrrr???? did you forgoren to capitalize one of the letters??????");
                                 break;
                         }
                     }
