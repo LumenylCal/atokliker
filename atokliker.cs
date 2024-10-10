@@ -290,7 +290,6 @@ namespace AtoKliker
             if (isPressedNow && !wasToggleKeyPressed)
             {
                 isgamertoggled = !isgamertoggled;
-                Console.WriteLine("Toggled!");
                 Thread.Sleep(200);
             }
 
