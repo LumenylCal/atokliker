@@ -1,367 +1,387 @@
-﻿using System;
-using System.Globalization;
+﻿using Newtonsoft.Json;
 using System.Runtime.InteropServices;
-using System.Security.Cryptography;
-using System.Threading;
-using System.Threading.Tasks;
 
-class AutoShitter
+namespace AtoKliker
 {
-    // if youre here to read the code im so sorry... its actual brainrot... ANYWAYS HAVE FUNNN BAIIII
-
-    #region dumb shit
-
-    [DllImport("user32.dll", SetLastError = true)]
-    private static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, int dwExtraInfo);
-
-    [DllImport("user32.dll", SetLastError = true)]
-    private static extern short GetAsyncKeyState(int vKey);
-
-    private const uint prumridown = 0x02;
-    private const uint primryup = 0x04;
-    private const uint secondraydown = 0x08;
-    private const uint secondrymusknappupp = 0x10;
-
-    private const int defalttogle = 0x05;
-    private const int defuldgold = 0x06;
-    private const int primarkiliker = 0x01;
-    private const int seconfklik = 0x02;
-
-    private static bool yestoggle;
-    private static int holdingbuttonisthisthingy = defuldgold;
-    private static int andthetogglebuttonisthisthingy = defalttogle;
-    private static int klikkatyper = primarkiliker;
-    private static int delay = 1;
-
-    private static bool isgamertoggled = false;
-
-    #endregion
-
-    #region dumb shit PART 2 (EVIL) (DARK) (TWISTED)
-    private static void helpformeandnoobs()
+    class AutoShitter
     {
-        Console.WriteLine(" ");
-        Console.WriteLine("Available Commands:");
-        Console.WriteLine("L_Toggle(Button Code)    - Sets the button for toggling auto-clicking.");
-        Console.WriteLine("L_Hold(Button Code)      - Sets the button for holding down to click.");
-        Console.WriteLine("L_PrimaryClick           - Sets the click type to primary (Left Mouse Button).");
-        Console.WriteLine("L_SecondaryClick         - Sets the click type to secondary (Right Mouse Button).");
-        Console.WriteLine("L_Delay(Miliseconds)     - Sets the time between each click.");
-        Console.WriteLine("L_Reset                  - Reset all settings to defaults.");
-        Console.WriteLine("L_Code(Button Input)     - Output the hex code for the specified Button.");
-        Console.WriteLine("help                     - Display this help information.");
-        Console.WriteLine("helpbind                 - Display the keybind help information.");
-        Console.WriteLine(" ");
-        Console.WriteLine("For any other help or bug reporting go to discord.gg/FwmGf6vBu2");
-    }
+        // if youre here to read the code im so sorry... its actual brainrot... ANYWAYS HAVE FUNNN BAIIII
 
-    private static void keybindhelpersingerest()
-    {
-        Console.WriteLine(" ");
-        Console.WriteLine("hi chat!!!1");
-        Console.WriteLine("if youre like me then you have no clue how to use this!!!");
-        Console.WriteLine("either because you have dementia like me OR because youre new here");
-        Console.WriteLine(" ");
-        Console.WriteLine("so to get started");
-        Console.WriteLine("first type `L_Code(the button you want to bind)`");
-        Console.WriteLine("then type `L_Hold(The outputted code) or L_Toggle(The outputted code) depending on what you want to bind`");
-        Console.WriteLine(" ");
-        Console.WriteLine("okay so theres some buttons that you  cant bind because im lazy so to bind them to mouse buttons just type like");
-        Console.WriteLine("L_Hold(Mouse5) or lajk L_Toggle(Mouse4)");
-        Console.WriteLine("heres a list of the mouse binds");
-        Console.WriteLine("Mouse1, Mouse2, Mouse3, Mouse4, Mouse5");
-        Console.WriteLine(" ");
-        Console.WriteLine("then uhhhh thats it i think dont @ me if it doesnt work for you ");
-        Console.WriteLine(" ");
-        Console.WriteLine("HAVE FUNN!!111!!1111!");
-    }
+        #region stupid stuff here (fields mostly)
 
-    private static void nowclickwiththeleftbutton() // press prinmy
-    {
-        mouse_event(prumridown, 0, 0, 0, 0);
-        mouse_event(primryup, 0, 0, 0, 0);
-    }
+        [DllImport("user32.dll", SetLastError = true)] private static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, int dwExtraInfo);
+        [DllImport("user32.dll", SetLastError = true)] private static extern short GetAsyncKeyState(int vKey);
 
-    private static void klikwiththerightbutton() // press secondaty
-    {
-        mouse_event(secondraydown, 0, 0, 0, 0);
-        mouse_event(secondrymusknappupp, 0, 0, 0, 0);
-    }
+        private const uint primarydown = 0x02, primaryup = 0x04, secondarydown = 0x08, secondaryup = 0x10;
+        private const int togglebutton = 5, holdbutton = 6, primary = 1, secondary = 2;
 
-    private static bool istehthingpressedyslashn(int key) // check if you pressing or holding or whaterev the thing FOR FREE
-    {
-        return (GetAsyncKeyState(key) & 0x8000) != 0;
-    }
+        private static int delay = 1, minDelay = 1, maxDelay = 1, kliktype = primary, currenthold = holdbutton, currenttoggle = togglebutton;
+        private static bool isgamertoggled, wasToggleKeyPressed = false;
+        private static char HumanSymbole;
 
-    private static int GetButtonCode(string button) //used for the settitng for the thing
-    {
-        if (button.StartsWith("0x"))
+        #endregion
+
+        #region save and laod shitter
+
+        private static void Saveicouldbesomuchmorethananumberbaby()
         {
-            if (int.TryParse(button.Substring(2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int hexCode))
+            Console.WriteLine(File.Exists("AtoKlikerSettings.json") ? "Settings saved to `AtoKlikerSettings.json`" : "Created settings file `AtoKlikerSettings.json`");
+            AtoKlikerSettings jsonfiler = new() { HoldButton = currenthold, ToggleButton = currenttoggle, ClickType = kliktype, Delay = delay, MinDelay = minDelay, MaxDelay = maxDelay };
+            File.WriteAllText("AtoKlikerSettings.json", JsonConvert.SerializeObject(jsonfiler, Formatting.Indented));
+        }
+
+        private static void ewithinkijusttouchedoneofmortysloads()
+        {
+            if (File.Exists("AtoKlikerSettings.json"))
             {
-                return hexCode;
+                string json = File.ReadAllText("AtoKlikerSettings.json");
+                var jsonfiler = JsonConvert.DeserializeObject<AtoKlikerSettings>(json);
+                if (jsonfiler != null)
+                {
+                    currenthold = jsonfiler.HoldButton;
+                    currenttoggle = jsonfiler.ToggleButton;
+                    kliktype = jsonfiler.ClickType;
+                    delay = jsonfiler.Delay;
+                    minDelay = jsonfiler.MinDelay;
+                    maxDelay = jsonfiler.MaxDelay;
+
+                    Console.WriteLine("Settings loaded from `AtoKlikerSettings.json`");
+                }
+                else Console.WriteLine("ruh oh something doesnt... mb");
+            }
+        }
+
+        #endregion
+
+        #region help info
+        private static void helpformeandnoobs()
+        {
+            Console.WriteLine("\nAvailable Commands:\n" +
+                              "L_Toggle(Button Code)    - Sets the button for toggling auto-clicking.\n" +
+                              "L_Hold(Button Code)      - Sets the button for holding down to click.\n" +
+                              "L_PrimaryClick           - Sets the click type to primary (Left Mouse Button).\n" +
+                              "L_SecondaryClick         - Sets the click type to secondary (Right Mouse Button).\n" +
+                              "L_Delay(Min, Max)        - Sets the time between each click. Setting the max time will make it randomize between the 2 values. For non-random only set Min.\n" +
+                              "L_Reset                  - Resets all settings to defaults.\n" +
+                              "L_Code(Button Input)     - Outputs the hex code for the specified Button.\n\n" +
+                              "help                     - Displays this help information.\n" +
+                              "helpbind                 - Displays the keybind help information.\n" +
+                              "helplist                 - Displays the keybind list for binds that you cant input normally.\n" +
+                              "current                  - Displays all current binds and settings.\n\n" +
+                              "L_Save                   - Saves your settings to a json file in the same directory as the .exe\n" +
+                              "L_Load                   - Loads your settings From a json file in the same directory as the .exe named AtoKlikerSettings.json\n\n" +
+                              "For any other help or bug reporting go to discord.gg/FwmGf6vBu2\n");
+        }
+
+        private static void keybindhelpersingerest()
+        {
+            Console.WriteLine("\nhi chat!!!1\nif youre like me then you have no clue how to use this!!!\n" +
+                              "either because you have dementia like me OR because youre new here\n" +
+                              " \nso to get started\nfirst type L_Code(the button you want to bind)\n" +
+                              "then type L_Hold(The outputted code) or L_Toggle(The outputted code) depending on what you want to bind\n" +
+                              " \nokay so theres some buttons that you cant bind because im lazy so to bind them to special buttons just type like\n" +
+                              "L_Hold(Mouse5) or lajk L_Toggle(Alt)\n" +
+                              "for a full list type `bindlist`\n" +
+                              " \nthen uhhhh thats it i think dont @ me if it doesnt work for you\n" +
+                              "dont forgoren to use L_Save!11!11\n" +
+                              " \nHAVE FUNN!!111!!1111!\n");
+        }
+
+        private static void listallpredefinedshit()
+        {
+            Console.WriteLine("\nhi chat!!1111!!!!\n" +
+                              "heres a list off all predefined characters that you usually cant type out into the L_Code() command!!!\n" +
+                              "to use there you just type L_Hold or L_Toggle then in the () type the button from the list for example L_Hold(Mouse1) this will bind it to primary mouse!!! (left click)\n" +
+                              " \nList:\n" +
+                              "Mouse list: Mouse1, Mouse2, Mouse3, Mouse4, Mouse5\n" +
+                              "HAVE FUNN!!111!!1111!\n");
+        }
+
+        private static void Current()
+        {
+            Console.WriteLine($"\nhi again chat\n\n" +
+                              $"Hold: {currenthold}\n" +
+                              $"Toggle: {currenttoggle}\n" +
+                              $"Klik type: {kliktype}\n" +
+                              $"Delay: {delay}\n" +
+                              $"MinDelay: {minDelay}\n" +
+                              $"MaxDelay: {maxDelay}\n");
+        }
+        #endregion
+
+        #region clicking
+        private static void KlikMuose()
+        {
+            mouse_event((kliktype == primary ? primarydown : secondarydown), 0, 0, 0, 0);
+            mouse_event(kliktype == primary ? primaryup : secondaryup, 0, 0, 0, 0);
+        }
+
+        private static bool iskayprassed(int key) => (GetAsyncKeyState(key) & 0x8000) != 0;
+
+        #endregion
+
+        #region commands
+        private static readonly Dictionary<string, int> keyMappings = new()
+        {
+            { "Mouse1", 1 }, { "Mouse2", 2 }, { "Mouse3", 4 },
+            { "Mouse4", 5 }, { "Mouse5", 6 }
+        };
+        private static int predefined(string button) => keyMappings.TryGetValue(button, out int keyCode) ? keyCode : -1;
+
+        private static int getcode(string button) => predefined(button);
+
+        private static char getthecharacterfromurstupidnumba(int keyNumber)
+        {
+            return (char)keyNumber;
+        }
+
+        //------------------------------------------------ real gamer shit
+
+        private static void L_PrimaryClick() { kliktype = primary; Console.WriteLine("ok now primary"); }
+
+        private static void L_SecondaryClick() { kliktype = secondary; Console.WriteLine("ok now secondary"); }
+
+        private static void L_Code(string keyInput)
+        {
+            if (keyInput.Length == 1)
+            {
+                int virtualKeyCode = char.ToUpper(keyInput[0]);
+                Console.WriteLine($"Code for {keyInput} = {virtualKeyCode}. hope that helps!111!!!!11");
             }
             else
             {
-                return -1;
+                Console.WriteLine($"whar is {keyInput}... can you just input like one character or something not as weird??? thanks!111!!!!1");
             }
         }
 
-        switch (button)
+        private static void L_Hold(int buttonnum)
         {
-            case "Mouse1": 
-                return primarkiliker;
-            case "Mouse2": 
-                return seconfklik;
-            case "Mouse4": 
-                return defuldgold;
-            case "Mouse5": 
-                return defalttogle;
-            default: return -1;
-        }
-    }
-
-    private static void L_Toggle(int button) // yes this button set for toggle yes yes
-    {
-        andthetogglebuttonisthisthingy = button;
-        Console.WriteLine($"Toggle button set to: {button}");
-    }
-
-    private static void L_Hold(int button) // now the setting for the uhhhhhh hold button yesssss thank you so much thats just what i need cz i need to BUZZ
-    {
-        holdingbuttonisthisthingy = button;
-        Console.WriteLine($"Hold button set to: {button}");
-    } 
-    
-    private static void L_Delay(int delayer) // for the delay commndeand
-    {
-        delay = delayer;
-        Console.WriteLine($"Delay between kliks set to: {delayer}");
-    }
-
-    private static void L_PrimaryClick() // u wanna primary or secondary click_? this is primary
-    {
-        klikkatyper = primarkiliker;
-        Console.WriteLine("Click type set to: Primary (Mouse1)");
-    }
-
-    private static void L_SecondaryClick() // and this is secondaryty
-    {
-        klikkatyper = seconfklik;
-        Console.WriteLine("Click type set to: Secondary (Mouse2)");
-    }
-
-    private static void L_Reset() // reset to my defaultsts
-    {
-        holdingbuttonisthisthingy = defuldgold;
-        andthetogglebuttonisthisthingy = defalttogle;
-        klikkatyper = primarkiliker;
-        yestoggle = false;
-        isgamertoggled = false;
-        Console.WriteLine("Settings reset to defaults: Hold on Mouse4, Toggle on Mouse5, klikkatyper to Primary (Mouse1).");
-    }
-
-    private static void ProcessCommand(string input) // read your stupid shit
-    {
-        string[] parts = input.Split('(');
-
-        if (input.Equals("help", StringComparison.OrdinalIgnoreCase))
-        {
-            helpformeandnoobs();
-            return;
+            currenthold = buttonnum;
+            HumanSymbole = getthecharacterfromurstupidnumba(buttonnum);
+            Console.WriteLine($"Hold button set to: {buttonnum} aka {HumanSymbole}");
         }
 
-        if (input.Equals("helpbind", StringComparison.OrdinalIgnoreCase))
+        private static void L_Toggle(int buttonnum)
         {
-            keybindhelpersingerest();
-            return;
+            currenttoggle = buttonnum;
+            HumanSymbole = getthecharacterfromurstupidnumba(buttonnum);
+            Console.WriteLine($"Toggle button set to: {buttonnum} aka {HumanSymbole}");
         }
 
-        if (parts.Length == 2)
+        private static void L_Delay(int minDelayValue, int maxDelayValue = -1)
         {
-            string command = parts[0].Trim();
-            string buttonStr = parts[1].Trim(')');
-
-            if (command.Equals("L_Delay", StringComparison.OrdinalIgnoreCase))
+            if (maxDelayValue == -1)
             {
-                if (int.TryParse(buttonStr, out int delayer))
+                delay = minDelayValue;
+                minDelay = minDelayValue;
+                maxDelay = minDelayValue;
+                Console.WriteLine($"Delay set to: {delay} ms");
+            }
+            else
+            {
+                minDelay = minDelayValue;
+                maxDelay = maxDelayValue;
+                AntiAntiAutoClicker();
+            }
+        }
+
+        private static void L_Reset()
+        {
+            currenthold = holdbutton;
+            currenttoggle = togglebutton;
+            kliktype = primary;
+            isgamertoggled = false;
+            Console.WriteLine("Settings reset to defaults: Hold on Mouse4, Toggle on Mouse5, kliktype to Primary (Mouse1).");
+        }
+        
+        #endregion
+
+        #region handling of your shit
+        private static void commandreading(string input)
+        {
+            string[] parts = input.Split('(');
+
+            if (input.Equals("L_Save", StringComparison.OrdinalIgnoreCase)) { Saveicouldbesomuchmorethananumberbaby(); return; }
+            if (input.Equals("L_Load", StringComparison.OrdinalIgnoreCase)) { ewithinkijusttouchedoneofmortysloads(); return; }
+            if (input.Equals("help", StringComparison.OrdinalIgnoreCase)) { helpformeandnoobs(); return; }
+            if (input.Equals("helpbind", StringComparison.OrdinalIgnoreCase)) { keybindhelpersingerest(); return; }
+            if (input.Equals("helplist", StringComparison.OrdinalIgnoreCase)) { listallpredefinedshit(); return; }
+            if (input.Equals("current", StringComparison.OrdinalIgnoreCase)) { Current(); return; }
+
+            if (parts.Length == 2)
+            {
+                string command = parts[0].Trim();
+                string buttonStr = parts[1].Trim(')');
+
+                if (command.Equals("L_Delay", StringComparison.OrdinalIgnoreCase))
                 {
-                    L_Delay(delayer);
-                    if (delayer < 50)
-                    Console.WriteLine("just saying this rn.. low delay values COULD make ur pc run it so fast it doesnt register the kliks properly (1 has worked for me)");
+                    string[] delayParts = buttonStr.Split(',');
+                    if (delayParts.Length == 1 && int.TryParse(delayParts[0], out int delayer))
+                    {
+                        L_Delay(delayer);
+                        if (delayer < 50)
+                            Console.WriteLine("just saying this rn.. low delay values COULD make ur pc run it so fast it doesnt register the kliks (in games mostly or other apps) properly (1 has worked for me)");
+                    }
+                    else if (delayParts.Length == 2 &&
+                             int.TryParse(delayParts[0], out int minDelay) &&
+                             int.TryParse(delayParts[1], out int maxDelay))
+                    {
+                        L_Delay(minDelay, maxDelay);
+                    }
+                    else
+                    {
+                        Console.WriteLine("sorry mane but i dont know what the sigma that i supposed to mean.. thats not a number i recognise");
+                    }
+                    return;
+                }
+                if (int.TryParse(buttonStr, out int buttonCode))
+                {
+                    switch (command)
+                    {
+                        case "L_Toggle":
+                            L_Toggle(buttonCode);
+                            break;
+
+                        case "L_Hold":
+                            L_Hold(buttonCode);
+                            break;
+
+                        default:
+                            Console.WriteLine("Wharrrr????");
+                            break;
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("sorry mane but i dont know what the sigma that i supposed to mean.. thats not a number i recognise");
-                }
-                return;
-            }
+                    int predefinedCode = predefined(buttonStr);
+                    if (predefinedCode != -1)
+                    {
+                        switch (command)
+                        {
+                            case "L_Toggle":
+                                L_Toggle(predefinedCode);
+                                break;
 
-            int buttonCode = GetButtonCode(buttonStr);
+                            case "L_Hold":
+                                L_Hold(predefinedCode);
+                                break;
 
-            if (buttonCode != -1)
-            {
-                switch (command)
-                {
-                    case "L_Toggle":
-                        L_Toggle(buttonCode);
-                        break;
-                    case "L_Hold":
-                        L_Hold(buttonCode);
-                        break;
-                    case "L_Delay":
-                        L_Hold(buttonCode);
-                        break;
-                    default:
-                        Console.WriteLine("Wharrrr????");
-                        break;
+                            default:
+                                Console.WriteLine("Wharrrr????");
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Buh??? Whar you mean {command}({buttonStr})!?1 I dont understand that key... type help or helpbind for valid options.");
+                    }
                 }
             }
             else
             {
-                int ARGH = new Random().Next(1, 4);
-                switch (ARGH)
-                {
-                    case 1:
-                        Console.WriteLine($"`{input}` isnt something i understand.... whar mean?? type `help` or `helpbind` ok??? then you the thing");
-                        break;
-                    case 2:
-                        Console.WriteLine($"Buh??? Whar you mean `{input}`!?1 you dont understand???+ type `help` or `helpbind` before doing whatever you do ok?");
-                        break;
-                    case 3:
-                        Console.WriteLine($"Wharrrrr????? Huhhhhhh??????? wha is `{input}`??? me not get... type `help` or `helpbind` for to know what do ok?");
-                        break;
-                }
+                simplecommands(input);
             }
         }
-        else if (input == "L_PrimaryClick")
+
+        private static void fuckingtoggleorelse()
         {
-            L_PrimaryClick();
+            bool isPressedNow = iskayprassed(currenttoggle);
+
+            if (isPressedNow && !wasToggleKeyPressed)
+            {
+                isgamertoggled = !isgamertoggled;
+                Console.WriteLine("Toggled!");
+                Thread.Sleep(200);
+            }
+
+            wasToggleKeyPressed = isPressedNow;
         }
-        else if (input == "L_SecondaryClick")
+
+        private static void randomfunnyresponse(string input)
         {
-            L_SecondaryClick();
-        }
-        else if (input == "L_Reset")
-        {
-            L_Reset();
-        }
-        else
-        {
-            int ARGH = new Random().Next(1, 4);
-            switch (ARGH)
+            switch (new Random().Next(1, 4))
             {
                 case 1:
-                    Console.WriteLine($"`{input}` isnt something i understand.... whar mean?? type `help` or `helpbind` ok??? then you the thing");
+                    Console.WriteLine($"`{input}` isnt something i understand.... whar mean?? type help or helpbind ok??? then you the thing");
                     break;
+
                 case 2:
-                    Console.WriteLine($"Buh??? Whar you mean `{input}`!?1 you dont understand???+ type `help` or `helpbind` before doing whatever you do ok?");
+                    Console.WriteLine($"Buh??? Whar you mean `{input}`!?1 you dont understand???+ type help or helpbind before doing whatever you do ok?");
                     break;
                 case 3:
-                    Console.WriteLine($"Wharrrrr????? Huhhhhhh??????? wha is `{input}`??? me not get... type `help` or `helpbind` for to know what do ok?");
+                    Console.WriteLine($"Wharrrrr????? Huhhhhhh??????? wha is `{input}`??? me not get... type help or helpbind for to know what do ok?");
                     break;
             }
         }
-    }
 
-    private static void L_Code(string keyInput) // here uyou get the code for the thing you want to binding
-    {
-        if (keyInput.Length == 1)
+        private static void simplecommands(string input)
         {
-            char keyChar = char.ToUpper(keyInput[0]);
-            int virtualKeyCode = (int)keyChar;
-            Console.WriteLine($"Code for {keyInput} = 0x{virtualKeyCode:X2}. hope that helps!111!!!!11");
-        }
-        else
-        {
-            Console.WriteLine($"whar is {keyInput}... can you just input like one character or something not as weird??? thanks!111!!!!1");
-        }
-    }
-
-    public static void thingyasyncnc() // i should delete this but im too lazy
-    {
-        if (!isgamertoggled)
-        {
-            isgamertoggled = true;
-            yestoggle = !yestoggle;
-        }
-    }
-
-    #endregion
-
-    #region mian? mnai? niam or however you spell it
-    static void Main()
-    {
-        int ARGH = new Random().Next(1, 4);
-        switch (ARGH)
-        {
-            case 1:
-                Console.Title = "ato kliker!!!1";
-                break;
-            case 2:
-                Console.Title = "gayming free from all punjabi viruses!!! (WORKING 2023) (NO SCAM) (NO VIRUS) (FREE RUBOX)";
-                break;
-            case 3:
-                Console.Title = "made because logitech GHub was too slow for me :3";
-                break;
+            if (input == "L_PrimaryClick")
+                L_PrimaryClick();
+            else if (input == "L_SecondaryClick")
+                L_SecondaryClick();
+            else if (input == "L_Reset")
+                L_Reset();
+            else
+                randomfunnyresponse(input);
         }
 
-        Console.WriteLine("type `help` for a list of the uhhh commands yea...\nTYPE `helpbind` TO LEARN HOW TO REBIND");
-        while (true)
+        private static void AntiAntiAutoClicker()
         {
-            if (Console.KeyAvailable)
+            if (maxDelay > minDelay)
             {
-                string input = Console.ReadLine();
-
-                if (input.StartsWith("L_Code("))
-                {
-                    string keyInput = input.Substring(7, input.Length - 8);
-                    L_Code(keyInput);
-                }
-                else
-                {
-                    ProcessCommand(input);
-                }
-            }
-
-            if (istehthingpressedyslashn(holdingbuttonisthisthingy))
-            {
-                if (klikkatyper == primarkiliker)
-                {
-                    nowclickwiththeleftbutton();
-                }
-                else if (klikkatyper == seconfklik)
-                {
-                    klikwiththerightbutton();
-                }
-                Thread.Sleep(delay);
-            }
-
-            if (istehthingpressedyslashn(andthetogglebuttonisthisthingy))
-            {
-                thingyasyncnc();
+                delay = new Random().Next(minDelay, maxDelay + 1);
             }
             else
             {
+                delay = minDelay;
+            }
+        }
+
+        #endregion
+
+        #region main
+        static void Main()
+        {
+            Console.WindowHeight = 30; 
+            Console.WindowWidth = 160;
+            if (File.Exists("AtoKlikerSettings.json")) ewithinkijusttouchedoneofmortysloads(); else Saveicouldbesomuchmorethananumberbaby();
+            Console.Title = new[] {
+                "ato kliker!!!1",
+                "gayming free from all punjabi viruses!!! (WORKING 2023) (NO SCAM) (NO VIRUS) (FREE RUBOX)",
+                "made because logitech GHub was too slow for me :3"
+            }[new Random().Next(3)];
+
+            Console.WriteLine("type help for a list of the uhhh commands yea...\nTYPE helpbind TO LEARN HOW TO REBIND");
+
+            while (true)
+            {
+                if (Console.KeyAvailable)
+                {
+                    string? input = Console.ReadLine();
+                    if (input != null)
+                    {
+                        if (input.StartsWith("L_Code(")) L_Code(input[7..^1]);
+                        else commandreading(input);
+                    }
+                }
+
+                fuckingtoggleorelse();
+
+                if (iskayprassed(currenthold))
+                {
+                    KlikMuose();
+                    Thread.Sleep(delay);
+                }
+
                 if (isgamertoggled)
                 {
-                    isgamertoggled = false;
+                    KlikMuose();
+                    Thread.Sleep(delay);
                 }
-            }
-
-            if (yestoggle)
-            {
-                if (klikkatyper == primarkiliker)
-                {
-                    nowclickwiththeleftbutton();
-                }
-                else if (klikkatyper == seconfklik)
-                {
-                    klikwiththerightbutton();
-                }
-                Thread.Sleep(delay);
             }
         }
         #endregion
     }
 }
+
