@@ -19,6 +19,8 @@ namespace AtoKliker
         private static bool isgamertoggled, wasToggleKeyPressed = false;
         private static char HumanSymbole;
 
+
+
         #endregion
 
         #region save and laod shitter
@@ -121,14 +123,24 @@ namespace AtoKliker
         #endregion
 
         #region commands
-        private static readonly Dictionary<string, int> keyMappings = new()
+        private static readonly Dictionary<string, uint> uinters = new()
         {
-            { "Mouse1", 1 }, { "Mouse2", 2 }, { "Mouse3", 4 },
-            { "Mouse4", 5 }, { "Mouse5", 6 }
-        };
-        private static int predefined(string button) => keyMappings.TryGetValue(button, out int keyCode) ? keyCode : -1;
+            { "F1", 0x70 }, { "F2", 0x71 }, { "F3", 0x72 }, { "F4", 0x73 },
+            { "F5", 0x74 }, { "F6", 0x75 }, { "F7", 0x76 }, { "F8", 0x77 },
+            { "F9", 0x78 }, { "F10", 0x79 }, { "F11", 0x7A }, { "F12", 0x7B },
+            { "F13", 0x7C }, { "F14", 0x7D }, { "F15", 0x7E }, { "F16", 0x7F },
+            { "F17", 0x80 }, { "F18", 0x81 }, { "F19", 0x82 }, { "F20", 0x83 },
+            { "F21", 0x84 }, { "F22", 0x85 }, { "F23", 0x86 }, { "F24", 0x87 },
 
-        private static int getcode(string button) => predefined(button);
+            { "Mouse1", 0x01 },
+            { "Mouse2", 0x02 },
+            { "Mouse3", 0x04 },
+            { "Mouse4", 0x05 },
+            { "Mouse5", 0x06 }
+        };
+        private static uint predefuint(string button) => uinters.TryGetValue(button, out uint code) ? code : uint.MaxValue;
+
+        private static int getcode(string button) => (int)predefuint(button);
 
         private static char getthecharacterfromurstupidnumba(int keyNumber)
         {
@@ -157,8 +169,14 @@ namespace AtoKliker
         private static void L_Hold(int buttonnum)
         {
             currenthold = buttonnum;
-            HumanSymbole = getthecharacterfromurstupidnumba(buttonnum);
+            string HumanSymbole = buttonCodeToString(buttonnum);
             Console.WriteLine($"Hold button set to: {buttonnum} aka {HumanSymbole}");
+        }
+
+        private static string buttonCodeToString(int buttonCode)
+        {
+            return uinters.FirstOrDefault(x => x.Value == (uint)buttonCode).Key
+                   ?? ((char)buttonCode).ToString();
         }
 
         private static void L_Toggle(int buttonnum)
@@ -247,27 +265,27 @@ namespace AtoKliker
                             break;
 
                         default:
-                            Console.WriteLine("Wharrrr????");
+                            Console.WriteLine("Wharrrr???? did you forgoren to capitalize one of the letters??????");
                             break;
                     }
                 }
                 else
                 {
-                    int predefinedCode = predefined(buttonStr);
-                    if (predefinedCode != -1)
+                    uint predefinedCode = predefuint(buttonStr);
+                    if (predefinedCode != uint.MaxValue)
                     {
                         switch (command)
                         {
                             case "L_Toggle":
-                                L_Toggle(predefinedCode);
+                                L_Toggle((int)predefinedCode);
                                 break;
 
                             case "L_Hold":
-                                L_Hold(predefinedCode);
+                                L_Hold((int)predefinedCode);
                                 break;
 
                             default:
-                                Console.WriteLine("Wharrrr???? did you forgoren to capitalize one of the letters??????");
+                                Console.WriteLine("wharrrr???? did you forgoren to capitalize one of the letters??????");
                                 break;
                         }
                     }
