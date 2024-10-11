@@ -17,9 +17,6 @@ namespace AtoKliker
 
         private static int delay = 1, minDelay = 1, maxDelay = 1, kliktype = primary, currenthold = holdbutton, currenttoggle = togglebutton;
         private static bool isgamertoggled, wasToggleKeyPressed = false;
-        private static char HumanSymbole;
-
-
 
         #endregion
 
@@ -58,57 +55,22 @@ namespace AtoKliker
         #region help info
         private static void helpformeandnoobs()
         {
-            Console.WriteLine("\nAvailable Commands:\n" +
-                              "L_Toggle(Button Code)    - Sets the button for toggling auto-clicking.\n" +
-                              "L_Hold(Button Code)      - Sets the button for holding down to click.\n" +
-                              "L_PrimaryClick           - Sets the click type to primary (Left Mouse Button).\n" +
-                              "L_SecondaryClick         - Sets the click type to secondary (Right Mouse Button).\n" +
-                              "L_Delay(Min, Max)        - Sets the time between each click. Setting the max time will make it randomize between the 2 values. For non-random only set Min.\n" +
-                              "L_Reset                  - Resets all settings to defaults.\n" +
-                              "L_Code(Button Input)     - Outputs the hex code for the specified Button.\n\n" +
-                              "help                     - Displays this help information.\n" +
-                              "helpbind                 - Displays the keybind help information.\n" +
-                              "helplist                 - Displays the keybind list for binds that you cant input normally.\n" +
-                              "current                  - Displays all current binds and settings.\n\n" +
-                              "L_Save                   - Saves your settings to a json file in the same directory as the .exe\n" +
-                              "L_Load                   - Loads your settings From a json file in the same directory as the .exe named AtoKlikerSettings.json\n\n" +
-                              "For any other help or bug reporting go to discord.gg/FwmGf6vBu2\n");
+            Console.WriteLine("\nAvailable Commands:\nL_Toggle(Button Code)    - Sets the button for toggling auto-clicking.\nL_Hold(Button Code)      - Sets the button for holding down to click.\nL_PrimaryClick           - Sets the click type to primary (Left Mouse Button).\nL_SecondaryClick         - Sets the click type to secondary (Right Mouse Button).\nL_Delay(Min, Max)        - Sets the time between each click. Setting the max time will make it randomize between the 2 values. For non-random only set Min.\nL_Reset                  - Resets all settings to defaults.\nL_Code(Button Input)     - Outputs the hex code for the specified Button.\n\nhelp                     - Displays this help information.\nhelpbind                 - Displays the keybind help information.\nhelplist                 - Displays the keybind list for binds that you cant input normally.\ncurrent                  - Displays all current binds and settings.\n\nL_Save                   - Saves your settings to a json file in the same directory as the .exe\nL_Load                   - Loads your settings From a json file in the same directory as the .exe named AtoKlikerSettings.json\n\nFor any other help or bug reporting go to discord.gg/FwmGf6vBu2\n");
         }
 
         private static void keybindhelpersingerest()
         {
-            Console.WriteLine("\nhi chat!!!1\nif youre like me then you have no clue how to use this!!!\n" +
-                              "either because you have dementia like me OR because youre new here\n" +
-                              " \nso to get started\nfirst type L_Code(the button you want to bind)\n" +
-                              "then type L_Hold(The outputted code) or L_Toggle(The outputted code) depending on what you want to bind\n" +
-                              " \nokay so theres some buttons that you cant bind because im lazy so to bind them to special buttons just type like\n" +
-                              "L_Hold(Mouse5) or lajk L_Toggle(Alt)\n" +
-                              "for a full list type `bindlist`\n" +
-                              " \nthen uhhhh thats it i think dont @ me if it doesnt work for you\n" +
-                              "dont forgoren to use L_Save!11!11\n" +
-                              " \nHAVE FUNN!!111!!1111!\n");
+            Console.WriteLine("\nhi chat!!!1\nif youre like me then you have no clue how to use this!!!\neither because you have dementia like me OR because youre new here\n\nso to get started\nfirst type L_Code(the button you want to bind)\nthen type L_Hold(The outputted code) or L_Toggle(The outputted code) depending on what you want to bind\n\nokay so theres some buttons that you cant bind because im lazy so to bind them to special buttons just type like\nL_Hold(Mouse5) or lajk L_Toggle(Alt)\nfor a full list type `bindlist`\n\nthen uhhhh thats it i think dont @ me if it doesnt work for you\ndont forgoren to use L_Save!11!11\n\nHAVE FUNN!!111!!1111!\n");
         }
 
         private static void listallpredefinedshit()
         {
-            Console.WriteLine("\nhi chat!!1111!!!!\n" +
-                              "heres a list off all predefined characters that you usually cant type out into the L_Code() command!!!\n" +
-                              "to use there you just type L_Hold or L_Toggle then in the () type the button from the list for example L_Hold(Mouse1) this will bind it to primary mouse!!! (left click)\n" +
-                              " \nList:\n" +
-                              "Mouse list: Mouse1, Mouse2, Mouse3, Mouse4, Mouse5\n" +
-                              "Function list: F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, F13, F14, F15, F16, F 17, F18, F19, F20, F21, F22, F23, F24\n" +
-                              "HAVE FUNN!!111!!1111!\n");
+            Console.WriteLine("\nhi chat!!1111!!!!\nheres a list off all predefined characters that you usually cant type out into the L_Code() command!!!\nto use there you just type L_Hold or L_Toggle then in the () type the button from the list for example L_Hold(Mouse1) this will bind it to primary mouse!!! (left click)\n\nList:\nMouse list: Mouse1, Mouse2, Mouse3, Mouse4, Mouse5\nFunction list: F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, F13, F14, F15, F16, F 17, F18, F19, F20, F21, F22, F23, F24\nHAVE FUNN!!111!!1111!\n");
         }
 
         private static void Current()
         {
-            Console.WriteLine($"\nhi again chat\n\n" +
-                              $"Hold: {currenthold}\n" +
-                              $"Toggle: {currenttoggle}\n" +
-                              $"Klik type: {kliktype}\n" +
-                              $"Delay: {delay}\n" +
-                              $"MinDelay: {minDelay}\n" +
-                              $"MaxDelay: {maxDelay}\n");
+            Console.WriteLine($"\nhi again chat\n\nHold: {currenthold}\nToggle: {currenttoggle}\nKlik type: {kliktype}\nDelay: {delay}\nMinDelay: {minDelay}\nMaxDelay: {maxDelay}\n");
         }
         #endregion
 
@@ -126,27 +88,13 @@ namespace AtoKliker
         #region commands
         private static readonly Dictionary<string, uint> uinters = new()
         {
-            { "F1", 0x70 }, { "F2", 0x71 }, { "F3", 0x72 }, { "F4", 0x73 },
-            { "F5", 0x74 }, { "F6", 0x75 }, { "F7", 0x76 }, { "F8", 0x77 },
-            { "F9", 0x78 }, { "F10", 0x79 }, { "F11", 0x7A }, { "F12", 0x7B },
-            { "F13", 0x7C }, { "F14", 0x7D }, { "F15", 0x7E }, { "F16", 0x7F },
-            { "F17", 0x80 }, { "F18", 0x81 }, { "F19", 0x82 }, { "F20", 0x83 },
-            { "F21", 0x84 }, { "F22", 0x85 }, { "F23", 0x86 }, { "F24", 0x87 },
-
-            { "Mouse1", 0x01 },
-            { "Mouse2", 0x02 },
-            { "Mouse3", 0x04 },
-            { "Mouse4", 0x05 },
-            { "Mouse5", 0x06 }
+            { "F1", 0x70 }, { "F2", 0x71 }, { "F3", 0x72 }, { "F4", 0x73 }, { "F5", 0x74 }, { "F6", 0x75 }, { "F7", 0x76 }, { "F8", 0x77 }, { "F9", 0x78 }, { "F10", 0x79 }, { "F11", 0x7A }, { "F12", 0x7B }, { "F13", 0x7C }, { "F14", 0x7D }, { "F15", 0x7E }, { "F16", 0x7F }, { "F17", 0x80 }, { "F18", 0x81 }, { "F19", 0x82 }, { "F20", 0x83 }, { "F21", 0x84 }, { "F22", 0x85 }, { "F23", 0x86 }, { "F24", 0x87 }, { "Mouse1", 0x01 }, { "Mouse2", 0x02 }, { "Mouse3", 0x04 }, { "Mouse4", 0x05 }, { "Mouse5", 0x06 }
         };
         private static uint predefuint(string button) => uinters.TryGetValue(button, out uint code) ? code : uint.MaxValue;
 
         private static int getcode(string button) => (int)predefuint(button);
 
-        private static char getthecharacterfromurstupidnumba(int keyNumber)
-        {
-            return (char)keyNumber;
-        }
+        private static char getthecharacterfromurstupidnumba(int keyNumber) => (char)keyNumber;
 
         //------------------------------------------------ real gamer shit
 
@@ -174,16 +122,12 @@ namespace AtoKliker
             Console.WriteLine($"Hold button set to: {buttonnum} aka {HumanSymbole}");
         }
 
-        private static string buttonCodeToString(int buttonCode)
-        {
-            return uinters.FirstOrDefault(x => x.Value == (uint)buttonCode).Key
-                   ?? ((char)buttonCode).ToString();
-        }
+        private static string buttonCodeToString(int buttonCode) => uinters.FirstOrDefault(x => x.Value == (uint)buttonCode).Key ?? ((char)buttonCode).ToString();
 
         private static void L_Toggle(int buttonnum)
         {
             currenttoggle = buttonnum;
-            HumanSymbole = getthecharacterfromurstupidnumba(buttonnum);
+            string HumanSymbole = buttonCodeToString(buttonnum);
             Console.WriteLine($"Toggle button set to: {buttonnum} aka {HumanSymbole}");
         }
 
@@ -266,7 +210,7 @@ namespace AtoKliker
                             break;
 
                         default:
-                            Console.WriteLine("Wharrrr???? did you forgoren to capitalize one of the letters??????");
+                            Console.WriteLine("wharrrr???? did you forgoren to capitalize one of the letters??????");
                             break;
                     }
                 }
@@ -359,6 +303,7 @@ namespace AtoKliker
         #endregion
 
         #region main
+
         static void Main()
         {
             Console.WindowHeight = 30; 
@@ -389,12 +334,14 @@ namespace AtoKliker
                 if (iskayprassed(currenthold))
                 {
                     KlikMuose();
+                    AntiAntiAutoClicker();
                     Thread.Sleep(delay);
                 }
 
                 if (isgamertoggled)
                 {
                     KlikMuose();
+                    AntiAntiAutoClicker();
                     Thread.Sleep(delay);
                 }
             }
