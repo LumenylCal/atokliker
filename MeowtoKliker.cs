@@ -389,7 +389,7 @@ namespace MeowtoKliker
                 {
                     string normalizedInput = input.ToLower();
                     bool isCatSound = Regex.IsMatch(normalizedInput,
-                    @"(m+e+o+w+|m+iau+|m+r+o+w+|m*r*rp+|p+r+r+|n+y+a+|p+u+r*r+|m+ew+|:3|-w-|UwU|OwO|:c|3:)",
+                    @"(m+e+o+w+|m+iau+|m+r+o+w+|m*r*rp+|p+r+r+|n+y+a+|p+u+r*r+|m+ew+|:3|;3|:#|;#|-w-|UwU|OwO|:c|3:)",
                     RegexOptions.IgnoreCase);
                     if (isCatSound)
                     {
