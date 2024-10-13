@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
+using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
-namespace AtoKliker
+namespace MeowtoKliker
 {
     class AutoShitter
     {
@@ -24,17 +26,17 @@ namespace AtoKliker
 
         private static void Saveicouldbesomuchmorethananumberbaby()
         {
-            Console.WriteLine(File.Exists("AtoKlikerSettings.json") ? "Settings saved to `AtoKlikerSettings.json`" : "Created settings file `AtoKlikerSettings.json`");
-            AtoKlikerSettings jsonfiler = new() { HoldButton = currenthold, ToggleButton = currenttoggle, ClickType = kliktype, Delay = delay, MinDelay = minDelay, MaxDelay = maxDelay };
-            File.WriteAllText("AtoKlikerSettings.json", JsonConvert.SerializeObject(jsonfiler, Formatting.Indented));
+            Console.WriteLine(File.Exists("MeowtoKlikerSettings.json") ? "Settings saved to `MeowtoKlikerSettings.json`" : "Created settings file `MeowtoKlikerSettings.json`");
+            MeowtoKlikerSettings jsonfiler = new() { HoldButton = currenthold, ToggleButton = currenttoggle, ClickType = kliktype, Delay = delay, MinDelay = minDelay, MaxDelay = maxDelay };
+            File.WriteAllText("MeowtoKlikerSettings.json", JsonConvert.SerializeObject(jsonfiler, Formatting.Indented));
         }
 
         private static void ewithinkijusttouchedoneofmortysloads()
         {
-            if (File.Exists("AtoKlikerSettings.json"))
+            if (File.Exists("MeowtoKlikerSettings.json"))
             {
-                string json = File.ReadAllText("AtoKlikerSettings.json");
-                var jsonfiler = JsonConvert.DeserializeObject<AtoKlikerSettings>(json);
+                string json = File.ReadAllText("MeowtoKlikerSettings.json");
+                var jsonfiler = JsonConvert.DeserializeObject<MeowtoKlikerSettings>(json);
                 if (jsonfiler != null)
                 {
                     currenthold = jsonfiler.HoldButton;
@@ -44,7 +46,7 @@ namespace AtoKliker
                     minDelay = jsonfiler.MinDelay;
                     maxDelay = jsonfiler.MaxDelay;
 
-                    Console.WriteLine("Settings loaded from `AtoKlikerSettings.json`");
+                    Console.WriteLine("Settings loaded from `MeowtoKlikerSettings.json`");
                 }
                 else Console.WriteLine("ruh oh something doesnt... mb");
             }
@@ -55,17 +57,17 @@ namespace AtoKliker
         #region help info
         private static void helpformeandnoobs()
         {
-            Console.WriteLine("\nAvailable Commands:\nL_Toggle(Button Code)    - Sets the button for toggling auto-clicking.\nL_Hold(Button Code)      - Sets the button for holding down to click.\nL_PrimaryClick           - Sets the click type to primary (Left Mouse Button).\nL_SecondaryClick         - Sets the click type to secondary (Right Mouse Button).\nL_Delay(Min, Max)        - Sets the time between each click. Setting the max time will make it randomize between the 2 values. For non-random only set Min.\nL_Reset                  - Resets all settings to defaults.\nL_Code(Button Input)     - Outputs the hex code for the specified Button.\n\nhelp                     - Displays this help information.\nhelpbind                 - Displays the keybind help information.\nhelplist                 - Displays the keybind list for binds that you cant input normally.\ncurrent                  - Displays all current binds and settings.\n\nL_Save                   - Saves your settings to a json file in the same directory as the .exe\nL_Load                   - Loads your settings From a json file in the same directory as the .exe named AtoKlikerSettings.json\n\nFor any other help or bug reporting go to discord.gg/FwmGf6vBu2\n");
+            Console.WriteLine("\n:3 Available Commands:\nL_Toggle(Button num/predefined)    - Sets the button for toggling auto-clicking.\nL_Hold(Button num/predefined)      - Sets the button for holding down to click.\nL_PrimaryClick                     - Sets the click type to primary (Left Mouse Button).\nL_SecondaryClick                   - Sets the click type to secondary (Right Mouse Button).\nL_Delay(Min, Max)                  - Sets the time between each click. Setting the max time will make it randomize between the 2 values. For non-random, only set Min.\nL_Reset                            - Resets all settings to defaults.\nL_Code(Button Input)               - Outputs the number for the specified Button.\n\nhelp                               - Displays this help information.\nhelpbind                           - Displays the keybind help information.\nhelplist                           - Displays the keybind list for binds that you cant input normally.\ncurrent                            - Displays all current binds and settings.\n\nL_Save                             - Saves your settings to a json file in the same directory as the .exe\nL_Load                             - Loads your settings From a json file in the same directory as the .exe named MeowtoKlikerSettings.json\n\nFor any other help or bug reporting go to discord.gg/FwmGf6vBu2\n");
         }
 
         private static void keybindhelpersingerest()
         {
-            Console.WriteLine("\nhi chat!!!1\nif youre like me then you have no clue how to use this!!!\neither because you have dementia like me OR because youre new here\n\nso to get started\nfirst type L_Code(the button you want to bind)\nthen type L_Hold(The outputted code) or L_Toggle(The outputted code) depending on what you want to bind\n\nokay so theres some buttons that you cant bind because im lazy so to bind them to special buttons just type like\nL_Hold(Mouse5) or lajk L_Toggle(Alt)\nfor a full list type `bindlist`\n\nthen uhhhh thats it i think dont @ me if it doesnt work for you\ndont forgoren to use L_Save!11!11\n\nHAVE FUNN!!111!!1111!\n");
+            Console.WriteLine("\nMeowww!!! hi chat!!!1 :3\nif youre like me then you have no clue how to use this!!!\neither because you have dementia like me OR because youre new here :3 hi\n\nso to get started\nfirst type L_Code(the button you want to bind)\nthen type L_Hold(The outputted numba) or L_Toggle(The outputted numba) depending on what you want to bind\n\nokay so theres some buttons that you cant bind because im lazy so to bind them to special buttons just type like\nL_Hold(Mouse5) or lajk L_Toggle(Alt)\nfor a full list type `bindlist`\n\nthen uhhhh thats it i think dont @ me if it doesnt work for you\n\ndont forgoren to use L_Save!11!11\n\nHAVE FUNN!!111!!1111!\n");
         }
 
         private static void listallpredefinedshit()
         {
-            Console.WriteLine("\nhi chat!!1111!!!!\nheres a list off all predefined characters that you usually cant type out into the L_Code() command!!!\nto use there you just type L_Hold or L_Toggle then in the () type the button from the list for example L_Hold(Mouse1) this will bind it to primary mouse!!! (left click)\n\nList:\nMouse list: Mouse1, Mouse2, Mouse3, Mouse4, Mouse5\nFunction list: F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, F13, F14, F15, F16, F 17, F18, F19, F20, F21, F22, F23, F24\nHAVE FUNN!!111!!1111!\n");
+            Console.WriteLine("\nhi chat!!1111!!!! :3\nheres a list off all predefined characters that you usually cant type out into the L_Code() command!!!\nto use there you just type L_Hold or L_Toggle then in the () :3 type the button from the list for example L_Hold(Mouse1) this will bind it to primary mouse!!! (left click) :3:3:3:3:3\n\nList:\nMouse list: Mouse1, Mouse2, Mouse3, Mouse4, Mouse5\nFunction list: F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, F13, F14, F15, F16, F 17, F18, F19, F20, F21, F22, F23, F24\nHAVE FUNN!!111!!1111!\n");
         }
 
         private static void Current()
@@ -75,9 +77,9 @@ namespace AtoKliker
         #endregion
 
         #region clicking
-        private static void KlikMuose()
+        private static void KlikMuoseRightFuckingMeow()
         {
-            mouse_event((kliktype == primary ? primarydown : secondarydown), 0, 0, 0, 0);
+            mouse_event(kliktype == primary ? primarydown : secondarydown, 0, 0, 0, 0);
             mouse_event(kliktype == primary ? primaryup : secondaryup, 0, 0, 0, 0);
         }
 
@@ -92,10 +94,6 @@ namespace AtoKliker
         };
         private static uint predefuint(string button) => uinters.TryGetValue(button, out uint code) ? code : uint.MaxValue;
 
-        private static int getcode(string button) => (int)predefuint(button);
-
-        private static char getthecharacterfromurstupidnumba(int keyNumber) => (char)keyNumber;
-
         //------------------------------------------------ real gamer shit
 
         private static void L_PrimaryClick() { kliktype = primary; Console.WriteLine("ok now primary"); }
@@ -107,11 +105,11 @@ namespace AtoKliker
             if (keyInput.Length == 1)
             {
                 int virtualKeyCode = char.ToUpper(keyInput[0]);
-                Console.WriteLine($"Code for {keyInput} = {virtualKeyCode}. hope that helps!111!!!!11");
+                Console.WriteLine($"Code for {keyInput} = {virtualKeyCode}. hope that helps!111!!!!11 :3 :3 :3 :3 mrow");
             }
             else
             {
-                Console.WriteLine($"whar is {keyInput}... can you just input like one character or something not as weird??? thanks!111!!!!1");
+                Console.WriteLine($"whar is {keyInput}... can you just input like one character or something not as weird??? thanks!111!!!!1 :3");
             }
         }
 
@@ -128,7 +126,7 @@ namespace AtoKliker
         {
             currenttoggle = buttonnum;
             string HumanSymbole = buttonCodeToString(buttonnum);
-            Console.WriteLine($"Toggle button set to: {buttonnum} aka {HumanSymbole}");
+            Console.WriteLine($"Toggle button set to: {buttonnum} aka {HumanSymbole} :3");
         }
 
         private static void L_Delay(int minDelayValue, int maxDelayValue = -1)
@@ -138,7 +136,7 @@ namespace AtoKliker
                 delay = minDelayValue;
                 minDelay = minDelayValue;
                 maxDelay = minDelayValue;
-                Console.WriteLine($"Delay set to: {delay} ms");
+                Console.WriteLine($"Delay set to: {delay} ms :3");
             }
             else
             {
@@ -154,7 +152,7 @@ namespace AtoKliker
             currenttoggle = togglebutton;
             kliktype = primary;
             isgamertoggled = false;
-            Console.WriteLine("Settings reset to defaults: Hold on Mouse4, Toggle on Mouse5, kliktype to Primary (Mouse1).");
+            Console.WriteLine("Settings reset to defaults: Hold on Mouse4, Toggle on Mouse5, kliktype to Primary (Mouse1). :3c meow");
         }
         
         #endregion
@@ -259,22 +257,79 @@ namespace AtoKliker
             wasToggleKeyPressed = isPressedNow;
         }
 
-        private static void randomfunnyresponse(string input)
+        private static void randomfunnyresponseaha_aha_aha_aha_aha_aha_aha(string input)
         {
-            switch (new Random().Next(1, 4))
+            Console.WriteLine(new[]
             {
-                case 1:
-                    Console.WriteLine($"`{input}` isnt something i understand.... whar mean?? type help or helpbind ok??? then you the thing");
-                    break;
-
-                case 2:
-                    Console.WriteLine($"Buh??? Whar you mean `{input}`!?1 you dont understand???+ type help or helpbind before doing whatever you do ok?");
-                    break;
-                case 3:
-                    Console.WriteLine($"Wharrrrr????? Huhhhhhh??????? wha is `{input}`??? me not get... type help or helpbind for to know what do ok?");
-                    break;
+                $"`{input}` isnt something i understand.... whar mean?? type help or helpbind ok??? then you the thing",
+                $"Buh??? Whar you mean `{input}`!?1 you dont understand???+ type help or helpbind before doing whatever you do ok?",
+                $"Wharrrrr????? Huhhhhhh??????? wha is `{input}`??? me not get... type help or helpbind for to know what do ok?"
             }
+            [new Random().Next(3)]
+           );
         }
+
+        private static void CuteCatLanguageResponseMeowMeow()
+        {
+            Console.WriteLine(new[]
+            {
+                "Meowww :3333",
+                "Meow meow!! :3 mrow",
+                "Mrrrp? meow :3",
+                "meeeowwwwwwwww :3 mrrrrrow mrrp meow meow",
+                "MEEEAAAOOOWWWWWWWW",
+                "Miau :3 -w- prrrrrrrrrrrr",
+                "mrrow? Ma! meow meow miau meow!!! :3",
+                "Mrowww meowwww prrrrrr mrrrowww -w- prrrrrr",
+                "Mrrrrrrr mrowwwwww ~~~~",
+                "Mewwwwwwwwwwwwwwwwww~~~",
+                "Prrrrrr meow~",
+                "Mrowwwww mrrrow mrrr~",
+                "Meooow mrrrrrrrrrrr~",
+                "Miaowwwwww~~~~",
+                "Mrrrrowwwwwwww :3",
+                "Mrrrowr mrrrrrr~",
+                "Meowwwwwwwwwwww!!!",
+                "Meeeowwwwwwwwwww :333",
+                "Mrrrrowwwwww~",
+                "Mreeeowwwwwww :3",
+                "Prrrreeeeow~",
+                "Mew mrrrrowwwww~~~",
+                "Nyaaa~~",
+                "Meowmew~",
+                "Mewwwwww~",
+                "Nyaa~ miau~",
+                "Purrpurr mrow~",
+                "Mew mrrr mrrrrr~",
+                "Mewwwwwwwwwwwwww~~~",
+                "Mrrroooowwwww~",
+                "Mew meow meow~",
+                "Nyaa~ nyaa~",
+                "Mrrrow meow meow mrrr~",
+                "Prrr~ purr~",
+                "Mew mrrrrowwww~",
+                "Mreeeow mrrrr~",
+                "Meeeooowwwww~",
+                "Mowwww mrowwww~",
+                "Meeeowwwwwwwwww~~~",
+                "Mew mrrrp~",
+                "Prrrow~",
+                "Mroooowwwwwww~",
+                "Nyaa~~ meow~",
+                "Mewwwwwwwwwwwww~",
+                "Mrawr~",
+                "Meow meow meow~",
+                "Mew mrrrowww~",
+                "Nya mrow~",
+                "Mrrrrowwwww~",
+                "Mowwwwww~~~",
+                "Mewwww~",
+                "Mrowwwwwww~",
+                "Mewwwwwwwww~~~",
+                "Mowwwwww~~",
+            }[new Random().Next(50)]);
+        }
+
 
         private static void simplecommands(string input)
         {
@@ -285,7 +340,7 @@ namespace AtoKliker
             else if (input == "L_Reset")
                 L_Reset();
             else
-                randomfunnyresponse(input);
+                randomfunnyresponseaha_aha_aha_aha_aha_aha_aha(input);
         }
 
         private static void AntiAntiAutoClicker()
@@ -307,21 +362,22 @@ namespace AtoKliker
         static void Main()
         {
             Console.WindowHeight = 30; 
-            Console.WindowWidth = 160;
-            if (File.Exists("AtoKlikerSettings.json")) ewithinkijusttouchedoneofmortysloads(); else Saveicouldbesomuchmorethananumberbaby();
+            Console.WindowWidth = 170;
+            if (File.Exists("MeowtoKlikerSettings.json")) ewithinkijusttouchedoneofmortysloads(); else Saveicouldbesomuchmorethananumberbaby();
             Console.Title = new[] {
                 "ato kliker!!!1",
                 "gayming free from all punjabi viruses!!! (WORKING 2023) (NO SCAM) (NO VIRUS) (FREE RUBOX)",
                 "made because logitech GHub was too slow for me :3"
             }[new Random().Next(3)];
 
-            Console.WriteLine("type help for a list of the uhhh commands yea...\nTYPE helpbind TO LEARN HOW TO REBIND");
+            Console.WriteLine("\ntype help for a list of the uhhh commands yea... :3\ntype helpbind for rebinfhelp!111\ntype bindlist for a list of cool stuff you can bind to\ntype current for the current settings111\nHAVE FUNN ;3");
 
             while (true)
             {
+                string? input = Console.ReadLine();
+
                 if (Console.KeyAvailable)
                 {
-                    string? input = Console.ReadLine();
                     if (input != null)
                     {
                         if (input.StartsWith("L_Code(")) L_Code(input[7..^1]);
@@ -329,18 +385,31 @@ namespace AtoKliker
                     }
                 }
 
+                if (input != null)
+                {
+                    string normalizedInput = input.ToLower();
+                    bool isCatSound = Regex.IsMatch(normalizedInput,
+                    @"(m+e+o+w+|m+iau+|m+r+o+w+|m*r*rp+|p+r+r+|n+y+a+|p+u+r*r+|m+ew+|:3|-w-|UwU|OwO|:c|3:)",
+                    RegexOptions.IgnoreCase);
+                    if (isCatSound)
+                    {
+                        CuteCatLanguageResponseMeowMeow();
+                    }
+                    else commandreading(input);
+                }
+
                 fuckingtoggleorelse();
 
                 if (iskayprassed(currenthold))
                 {
-                    KlikMuose();
+                    KlikMuoseRightFuckingMeow();
                     AntiAntiAutoClicker();
                     Thread.Sleep(delay);
                 }
 
                 if (isgamertoggled)
                 {
-                    KlikMuose();
+                    KlikMuoseRightFuckingMeow();
                     AntiAntiAutoClicker();
                     Thread.Sleep(delay);
                 }

@@ -1,6 +1,6 @@
-﻿namespace AtoKliker
+﻿namespace MeowtoKliker
 {
-    public class AtoKlikerSettings
+    public class MeowtoKlikerSettings
     {
         public int HoldButton { get; set; }
         public int ToggleButton { get; set; }
