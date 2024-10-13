@@ -234,7 +234,7 @@ namespace MeowtoKliker
                     }
                     else
                     {
-                        Console.WriteLine($"Buh??? Whar you mean {command}({buttonStr})!?1 I dont understand that key... type help or helpbind for valid options.");
+                        Console.WriteLine($"Buh??? Whar you mean {command}({buttonStr})!? I dont understand that key... type help or helpbind for valid options.");
                     }
                 }
             }
